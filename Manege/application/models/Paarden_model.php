@@ -38,6 +38,16 @@ class Paarden_model extends CI_Model {
 
 		return $this->db->insert('paarden', $data);
 	}
+	public function editPaard($Paardennaam, $beschrijving, $paarden_id, $Springsport) {
+		
+		$data = array(
+			'Paardennaam' => $this->input->post('Paardennaam'),
+			'Beschrijving' => $this->input->post('Beschrijving'),
+			'Springsport' => $this->input->post('Springsport'),
+		);
+            $this->db->where('id', $paarden_id);
+            return $this->db->update('paarden', $data);
+        }
 
 	
 	/**
@@ -154,4 +164,9 @@ class Paarden_model extends CI_Model {
 		return $this->db->get()->result();
 		
 	}
+	public function delete_paard($paarden_id)
+    {
+        $this->db->where('id', $paarden_id);
+        return $this->db->delete('paarden');
+    }
 }

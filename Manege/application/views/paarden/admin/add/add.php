@@ -21,8 +21,8 @@
 			</div>
 			<?= form_open() ?>
 				<div class="form-group">
-					<label for="drinknaam">Naam van Paard:</label>
-					<input type="text" class="form-control" id="drinkNaam" name="drinknaam" placeholder="Vul hier de naam van het drankje in.">
+					<label for="Paardennaam">Naam van Paard:</label>
+					<input type="text" class="form-control" id="PaardenNaam" name="Paardennaam" placeholder="Vul hier de naam van het paard in.">
 					<p class="help-block">Alleen letters en nummers.</p>
 				</div>
 				<div class="form-group">

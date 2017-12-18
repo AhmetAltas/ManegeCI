@@ -62,7 +62,7 @@ class Paarden extends CI_Controller {
 			$Paardennaam = $this->input->post('Paardennaam');
 			$beschrijving    = $this->input->post('beschrijving');
 			
-			if ($this->Paarden_model->addPaarden($Paardennaam, $beschrijving)) {
+			if ($this->Paarden_model->addPaard($Paardennaam, $beschrijving)) {
 
 				$this->load->view('header');
 				$this->load->view('paarden/admin/add/add_success', $data);
@@ -82,11 +82,11 @@ class Paarden extends CI_Controller {
 		
 	}
 
-        public function view($beschrijving = NULL)
+        public function view()
         {
-        $data['paard_item'] = $this->Paarden_model->get_paard($beschrijving);
+        $data['paarden'] = $this->Paarden_model->get_paarden();
 
-        if (empty($data['paard_item']))
+        if (empty($data['paarden']))
         {
                 show_404();
      
@@ -106,8 +106,7 @@ class Paarden extends CI_Controller {
 	 */
     public function edit($paarden_id){
     		
-
-            if (empty($paarden_id))
+    		if (empty($paarden_id))
             {
                 show_404();
             }
@@ -116,26 +115,30 @@ class Paarden extends CI_Controller {
             $this->load->library('form_validation');
 
             //$data['title'] = 'Edit a books item';
-            $data['paard_item'] = $this->Paarden_model->krijg_id_van_paardnaam($paarden_id);     
+            $data['paard_item'] = $this->Paarden_model->get_paard($paarden_id);     
 
 		$this->form_validation->set_rules('Paardennaam', 'Paardennaam', 'required|alpha_numeric');
-		$this->form_validation->set_rules('beschrijving', 'Beschrijving', 'required|alpha_numeric');
+		$this->form_validation->set_rules('Beschrijving', 'Beschrijving', 'required|alpha_numeric');
+		$this->form_validation->set_rules('Springsport', 'Springsport', 'required|alpha_numeric');
 		
 		if ($this->form_validation->run() === false) {
 
-			$this->load->view('header');
-			$this->load->view('paarden/admin/edit/edit');
+			$this->load->view('header', $data);
+			$this->load->view('paarden/admin/edit/edit', $data);
 			$this->load->view('footer');
 			
 		} else {
 
 			$Paardennaam = $this->input->post('Paardennaam');
-			$beschrijving = $this->input->post('beschrijving');
+			$beschrijving = $this->input->post('Beschrijving');
+			$Springsport = $this->input->post('Springsport');
 			
-			if ($this->Paarden_model->editPaard($Paardennaam, $beschrijving)) {
+			if ($this->Paarden_model->editPaard($Paardennaam, $beschrijving, $paarden_id, $Springsport)) {
 				
-				$paarden_id = $this->Paarden_model->krijg_id_van_drinknaam($Paardennaam);
+				
 				$paard    = $this->Paarden_model->get_paard($paarden_id);
+
+				
 
 				/*
 				$_SESSION['gebruiker_id']      = (int)$gebruiker->id;
@@ -145,8 +148,8 @@ class Paarden extends CI_Controller {
 				$_SESSION['is_admin']     = (bool)$gebruiker->is_admin;
 				*/
 				
-				$this->load->view('header');
-				$this->load->view('paarden/admin/edit_gelukt', $data);
+				$this->load->view('header', $data);
+				$this->load->view('paarden/admin/edit/edit_gelukt', $data);
 				$this->load->view('footer');
 				
 			} else {
@@ -159,7 +162,9 @@ class Paarden extends CI_Controller {
 				$this->load->view('footer');
 				
 			}
-			
+		
+
+
 		}
 		
 	}
@@ -188,5 +193,18 @@ class Paarden extends CI_Controller {
 		}
 		
 	}
+	        public function delete($paarden_id)
+    {
+ 
+        if (empty($paarden_id))
+        {
+            show_404();
+        }
+                
+       $paard_item = $this->Paarden_model->get_paard($paarden_id);
+        
+        $this->Paarden_model->delete_paard($paarden_id);        
+        redirect( base_url() . 'index.php/paarden/view');        
+    }
 	
 }
