@@ -44,5 +44,10 @@ for (i = 0; i < acc.length; i++) {
 		<p class="contact">Contactformulier</p>
 		<p class="contact">Telefoonnummer</p>
 		<p class="contact">Socialmedia</p>
+		<br>
+		<img src="#"><a class="contact">Contactformulier</a></img>
+		<img src="#"><a class="contact">Telefoonnummer</a></img>
+		<img src="#"><a class="contact">Socialmedia</a></img>
+
 	</tr>
 </table>
